@@ -10,30 +10,33 @@
     <script type="text/javascript" src="js/underscore.min.js"></script>
     <script type="text/javascript" src="js/backbone.min.js"></script>
     <script type="text/javascript" src="js/backbone-localstorage.js"></script>
+    <script type="text/javascript" src="js/handlebars-0.9.0.pre.4.js"></script>
     <script type="text/javascript" src="js/trac.js"></script>
+    <script type="text/javascript" src="js/trac-time.js"></script>
     <script type="text/template" id="activity-template">
-        <div class="activity {{active ? 'active' : ''}}">
-            <div class="time">{{Trac.time(begin)}} - {{Trac.time(end)}}</div>
+        <div class="activity {{#active}}active{{/active}}">
+            <div class="time">{{ time from }} - {{ time to }}</div>
             <div class="category">{{category}}</div>
             <div class="project">{{project}}</div>
             <div class="actions">
                 <a href="#delete-{{id}}" data-id="{{id}}" class="delete">Borrar</a>
             </div>
-            <div class="duration">{{duration}}</div>
+            <div class="duration">{{time_duration duration}}</div>
         </div>
     </script>
     <script type="text/template" id="stats-template">
     </script>
+    <script type="text/javascript" src="js/trac-ui.js"></script>
 
     <script>
         $(function() {
-            var activityTemplate = _.template($('#activity-template').html());
             Trac.activities.fetch();
 
             function refresh() {
                 $("#output").html('');
                 Trac.activities.each(function(activity) {
-                    $("#output").append(activityTemplate(activity.attributes));
+                    var view = new Trac.ActivityView({model: activity});
+                    $("#output").append(view.render().el);
                 });
             }
 
@@ -56,6 +59,7 @@
 
             refresh();
             $("#command").focus();
+            Trac.start();
         });
     </script>
 </head>

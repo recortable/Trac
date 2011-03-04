@@ -1,7 +1,6 @@
 // Trac - simple time tracking extension for google Chrome
 
-// Load when the DOM is ready
-$(function() {
+(function() {
     _.templateSettings = {
         interpolate : /\{\{(.+?)\}\}/g
     };
@@ -10,12 +9,11 @@ $(function() {
     var Trac = window.Trac = function(command) {
         var exp = /(\w+)?@(\w+)?\s*(\w+)?/;
         if (exp.test(command)) {
-            var now = new Date();
-            _.each(Trac.activities.active(), function(activity) {
-                console.log("Desactivate: ", activity);
-                activity.save({active:false});
-            });
-            Trac.activities.create({category:RegExp.$1,project:RegExp.$2,task:RegExp.$3,begin: now, end:now, active:true, duration: 0});
+            Trac.stop();
+            var now = new Date().getTime();
+            var activity = Trac.activities.create({category:RegExp.$1,project:RegExp.$2,task:RegExp.$3,from: now, to:now, active:true, duration: 0});
+            console.log("NEW ACTIVITY", activity);
+            Trac.start();
             return true;
         }
         return false;
@@ -43,31 +41,31 @@ $(function() {
 
     //var today = new Date();
 
-    Trac.toDate = function(date) {
-        return _.isDate(date) ? date : new Date(Date.parse(date));
-    };
-
-
-    Trac.date = function(date) {
-        date = Trac.toDate(date);
-        var day = "" + date.getDate();
-        var month = date.getMonth();
-        var year = date.getFullYear();
-        return day + "/" + month + "/" + year;
-    };
-
-    Trac.time = function(date) {
-        date = Trac.toDate(date);
-        var hours = "" + date.getHours();
-        var minutes = "" + date.getMinutes();
-
-        if (minutes < 10)
-            minutes = "0" + minutes;
-        return hours + ":" + minutes;
-    };
 
     Trac.clear = function() {
         Trac.activities.localStorage.destroyAll();
-    }
+        return true;
+    };
 
-});
+    Trac.stop = function() {
+        _.each(Trac.activities.active(), function(activity) {
+            console.log("Desactivate: ", activity);
+            activity.save({active:false});
+        });
+        return true;
+    };
+
+
+    Trac.start = function() {
+        var active = Trac.activities.active();
+        if (active.length > 0) {
+            var now = new Date().getTime();
+            _.each(active, function(activity) {
+                var from = activity.get('from');
+                var duration = now - from;
+                activity.save({to:now, duration: duration});
+            });
+            setTimeout(Trac.start, 5 * 1000);
+        }
+    }
+})();
