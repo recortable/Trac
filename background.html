@@ -1,3 +1,9 @@
+<script type="text/javascript" src="js/json2.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/underscore.min.js"></script>
+<script type="text/javascript" src="js/backbone.min.js"></script>
+<script type="text/javascript" src="js/backbone-localstorage.js"></script>
+<script type="text/javascript" src="js/trac.js"></script>
 <script type="text/javascript">
     // This event is fired each time the user updates the text in the omnibox,
     // as long as the extension's keyword mode is still active.
@@ -13,7 +19,18 @@
     // This event is fired with the user accepts the input in the omnibox.
     chrome.omnibox.onInputEntered.addListener(
             function(text) {
-                console.log('inputEntered: ' + text);
-                alert('You just typed "' + text + '"');
+                if (text == '') {
+                    chrome.tabs.create({url : 'trac.html'});
+                } else {
+                    if (Trac(text)) {
+                        //localStorage.setItem(“trac-last-action”, text);
+                        var notification = webkitNotifications.createHTMLNotification('timer.html');
+                        notification.show();
+                        setTimeout(function() {
+                            //notification.cancel();
+                        }, 3000);
+                    }
+
+                }
             });
 </script>

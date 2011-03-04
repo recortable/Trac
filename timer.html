@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trac</title>
+    <style>
+        html {text-align:right;}
+    </style>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script>
+        $(function() {
+           var action = localStorage["trac"];
+
+            var i = 1;
+            $("#timer").html("!!" + action + " 0:0" + i);
+            setInterval(function() {
+                i++;
+                $("#timer").html("!! " + action + " 0:0" + i);
+            }, 1000);
+
+        });
+
+    </script>
+</head>
+<body>
+<div id="timer">esto es una prueba</div>
+</body>
+</html>

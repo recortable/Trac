@@ -1,0 +1,93 @@
+html {
+    color: whiteSmoke;
+    font: normal 81.25% Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+}
+
+.command {
+    background-color: whiteSmoke;
+    padding: 10px 0;
+    font-size: 150%;
+    border-bottom: 1px solid #BBB;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 1px;
+}
+
+.command input {
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+    padding: 2px;
+}
+.command input:focus {outline:none;}
+
+.view {
+    margin: 2em;
+    width: 30em;
+    float: left;
+    background-color: white;
+    border: 1px solid #AAA;
+    border-radius: 5px;
+    text-align: left;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 5px;
+}
+
+.view .header {
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f6f6f6), to(#eee));
+    border-top: 1px solid white;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom: 1px solid #BBB;
+}
+
+.view .list {
+    color: black;
+}
+
+.view h1 {
+    margin: 0;
+    line-height: 40px;
+    text-indent: 10px;
+    font-size: 20px;
+    font-weight: 400;
+    color: #323232;
+    text-shadow: 0 1px 1px white;
+}
+
+.view .footer {
+    background-color: whiteSmoke;
+    border-top: 1px solid #BBB;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    text-align: right;
+    padding: 3px 5px;
+}
+
+.activity {
+    width: 100%;
+    overflow: hidden;
+    padding: 3px 0;
+}
+.activity.active {background-color:#fefbd1;}
+div.activity.active:hover {background-color:#ddd;}
+
+div.activity:hover {
+    background-color: #ddd;
+}
+
+.activity > div {
+    margin-right: 0.5em;
+}
+
+.activity .time {
+    float: left;
+    margin-left: 1em;
+}
+
+.activity .project {float: left; color:gray;}
+.activity .category {    float: left;}
+.activity .duration {    float: right;}
+
+.activity .actions {
+    float: right;
+    margin-right: 1em;
+}

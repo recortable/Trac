@@ -1,12 +1,7 @@
 {
-    "name": "Pulpo",
-    "version": "0.1.5",
-    "description": "Pulpo time tracking.",
-    "browser_action": {
-        "default_icon": "pulpo.png",
-        "default_title": "Pulpo - fast time tracking",
-        "default_popup": "popup.html"
-    },
+    "name": "Trac",
+    "version": "0.0.11",
+    "description": "Simple time tracking.",
     "icons": {
         "128": "img/pulpo128x128.png",
         "64": "img/pulpo64x64.png"
@@ -16,6 +11,6 @@
         "keyword" : "!!"
     },
     "permissions": [
-        "http://api.flickr.com/"
+        "tabs",  "notifications"
     ]
 }

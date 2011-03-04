@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trac</title>
+    <link type="text/css" rel="stylesheet" href="css/reset.css">
+    <link type="text/css" rel="stylesheet" href="css/trac.css">
+
+    <script type="text/javascript" src="js/json2.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/underscore.min.js"></script>
+    <script type="text/javascript" src="js/backbone.min.js"></script>
+    <script type="text/javascript" src="js/backbone-localstorage.js"></script>
+    <script type="text/javascript" src="js/trac.js"></script>
+    <script type="text/template" id="activity-template">
+        <div class="activity {{active ? 'active' : ''}}">
+            <div class="time">{{Trac.time(begin)}} - {{Trac.time(end)}}</div>
+            <div class="category">{{category}}</div>
+            <div class="project">{{project}}</div>
+            <div class="actions">
+                <a href="#delete-{{id}}" data-id="{{id}}" class="delete">Borrar</a>
+            </div>
+            <div class="duration">{{duration}}</div>
+        </div>
+    </script>
+    <script type="text/template" id="stats-template">
+    </script>
+
+    <script>
+        $(function() {
+            var activityTemplate = _.template($('#activity-template').html());
+            Trac.activities.fetch();
+
+            function refresh() {
+                $("#output").html('');
+                Trac.activities.each(function(activity) {
+                    $("#output").append(activityTemplate(activity.attributes));
+                });
+            }
+
+            $("#command").change(function() {
+                if (Trac($(this).val())) {
+                    refresh();
+                }
+                $(this).val('').focus();
+            });
+
+            $("a.delete").click(function() {
+                console.log("joder!");
+                var id = $(this).attr('data-id');
+                console.log(id);
+                var activity = Trac.activities.get(id);
+                activity.clear();
+                refresh();
+                return false;
+            });
+
+            refresh();
+            $("#command").focus();
+        });
+    </script>
+</head>
+<body>
+<div>
+    <div class="command">
+        <input id="command" type="text"/>
+
+        <div id="current"></div>
+    </div>
+    <div class="view">
+        <div class="header">
+            <h1>Actividad hoy</h1>
+        </div>
+        <div id="output" class="list"></div>
+        <div class="footer">
+            <a id="early" href="#">Add early activity</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
